@@ -1,27 +1,18 @@
-import React from 'react';
-
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from 'react-router-dom';
-
+import PrivateRoute from 'components/PrivateRoute';
 import IndexPage from 'pages';
 import NotFound from 'pages/404';
+import Login from 'pages/Login';
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 const App = () => (
   <Router>
     <Switch>
-      <Route path="/" exact>
+      <PrivateRoute path="/" exact>
         <IndexPage />
-      </Route>
-      <Route path="/404" exact>
-        <NotFound />
-      </Route>
-      <Route path="*">
-        <Redirect to="/404" />
-      </Route>
+      </PrivateRoute>
+      <Route path="/login" exact component={Login} />
+      <Route path="*" component={NotFound} />
     </Switch>
   </Router>
 );
