@@ -1,87 +1,91 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { useForm, ErrorMessage } from 'react-hook-form'
+// import axios from 'axios'
+import {
+  LoginWrapper,
+  LoginContent,
+  LoginForm,
+  Title,
+  InputControl,
+  Input,
+  Button,
+  Message,
+} from './styled'
 
-import io from 'socket.io-client';
-import OAuth from 'components/OAuth';
-import styled from '@emotion/styled';
+import { login } from '../App/actions'
 
-let socket;
-const apiEndpoint = 'http://localhost:3001';
-const providers = [/* 'twitter', 'google', 'facebook', */ 'github'];
-
-const LoginWrapper = styled.div`
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-`;
-
-const LoginForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: baseline;
-`;
-
-const Input = styled.input`
-  margin: 0.25rem;
-  padding: 0.5rem 1rem;
-  background-color: #f8f9fa;
-  border: 1px solid #f2f2f2;
-  border-radius: 7px;
-  &:focus {
-    outline: 0;
-  }
-`;
-
-const Button = styled.button`
-  margin: 0.25rem;
-  padding: 0.5rem 1rem;
-  background-color: #228be6;
-  border: 1px solid #228be6;
-  color: #fff;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  border-radius: 7px;
-  &:focus {
-    outline: 0;
-  }
-`;
-
-function Login() {
-  const [status, setStatus] = useState({ on: false, error: null });
-
+function Login(props) {
+  const { register, handleSubmit, errors } = useForm({
+    validateCriteriaMode: 'all',
+  })
+  const [beMessage, setbeMessage] = useState(null)
   useEffect(() => {
-    socket = io(apiEndpoint);
-    socket.on('connect', () => {
-      setStatus((s) => {
-        return { ...s, on: true };
-      });
-    });
-    socket.on('connect_error', () => {
-      setStatus((s) => {
-        return { ...s, error: 'connect error!!!' };
-      });
-    });
-  }, []);
+  }, [])
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
+  const onSubmit = (data) => {
+    const { dispatch } = props
+    dispatch(login(data.email, data.password))
+
+  }
 
   return (
     <LoginWrapper>
-      <LoginForm onSubmit={handleSubmit}>
-        <Input type="email" name="email" />
-        <Button type="submit" name="login">
-          bắt đầu
-        </Button>
-      </LoginForm>
-      {status.on &&
-        providers.map((provider) => (
-          <OAuth provider={provider} key={provider} socket={socket} />
-        ))}
+      <LoginContent>
+        <Title>Login to your account</Title>
+        <LoginForm onSubmit={handleSubmit(onSubmit)}>
+          <InputControl>
+            <Input
+              ref={register({ required: 'This is required.' })}
+              type="email"
+              name="email"
+              placeholder="Email"
+            />
+            <ErrorMessage errors={errors} name="email">
+              {({ message }) => <Message>{message}</Message>}
+            </ErrorMessage>
+          </InputControl>
+          <InputControl>
+            <Input
+              ref={register({
+                required: 'This is required.',
+                minLength: {
+                  value: 8,
+                  message: 'Min length 8',
+                },
+                maxLength: {
+                  value: 32,
+                  message: 'Max length 32',
+                },
+              })}
+              type="password"
+              name="password"
+              placeholder="Password"
+            />
+            <ErrorMessage errors={errors} name="password">
+              {
+                ({ messages }) =>
+                  messages &&
+                  Object.entries(messages).map(([type, message]) => (
+                    <Message key={type}>{message}</Message>
+                  ))
+                // eslint-disable-next-line react/jsx-curly-newline
+              }
+            </ErrorMessage>
+            {beMessage && <Message>{beMessage}</Message>}
+          </InputControl>
+          <Button type="submit" name="login">
+            get started
+          </Button>
+        </LoginForm>
+      </LoginContent>
     </LoginWrapper>
-  );
+  )
 }
 
-export default Login;
+Login.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+}
+
+export default connect()(Login)

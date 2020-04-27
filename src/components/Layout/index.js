@@ -1,21 +1,20 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Global } from '@emotion/core';
-import Container from 'components/Container';
+import React from 'react'
+import PropTypes from 'prop-types'
+import Container from 'components/Container'
 
-import globalStyles from './globalStyles';
+import GlobalStyle from './GlobalStyle'
 
 const Layout = ({ children }) => {
   return (
     <Container>
-      <Global styles={globalStyles} />
+      <GlobalStyle />
       {children}
     </Container>
-  );
-};
+  )
+}
 
 Layout.propTypes = {
   children: PropTypes.element.isRequired,
-};
+}
 
-export default Layout;
+export default Layout
