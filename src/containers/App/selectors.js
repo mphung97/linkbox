@@ -2,33 +2,33 @@
  * The global state selectors
  */
 
-import { createSelector } from 'reselect';
+import { createSelector } from 'reselect'
+import { initialState } from './reducer'
 
-const selectGlobal = (state) => state.get('global');
+const selectGlobal = (state) => state.global || initialState
 
-const makeSelectFormState = () => createSelector(
-  selectGlobal,
-  (globalState) => globalState.get('formState')
-);
+const selectRouter = (state) => state.router
 
-const makeSelectLocationState = () => {
-  let prevRoutingState;
-  let prevRoutingStateJS;
+const makeSelectCurrentUser = () =>
+  createSelector(selectGlobal, (globalState) => globalState.username)
 
-  return (state) => {
-    const routingState = state.get('route'); // or state.route
+const makeSelectLoggedIn = () =>
+  createSelector(selectRouter, (globalState) => globalState.loggedIn)
 
-    if (!routingState.equals(prevRoutingState)) {
-      prevRoutingState = routingState;
-      prevRoutingStateJS = routingState.toJS();
-    }
+const makeSelectLoading = () =>
+  createSelector(selectGlobal, (globalState) => globalState.loading)
 
-    return prevRoutingStateJS;
-  };
-};
+const makeSelectError = () =>
+  createSelector(selectGlobal, (globalState) => globalState.error)
+
+const makeSelectLocation = () =>
+  createSelector(selectRouter, (routerState) => routerState.location)
 
 export {
   selectGlobal,
-  makeSelectFormState,
-  makeSelectLocationState,
-};
+  makeSelectCurrentUser,
+  makeSelectLoggedIn,
+  makeSelectLoading,
+  makeSelectError,
+  makeSelectLocation,
+}

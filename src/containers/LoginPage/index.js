@@ -1,34 +1,39 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
+import { ErrorMessage, useForm } from 'react-hook-form'
 import { connect } from 'react-redux'
-import { useForm, ErrorMessage } from 'react-hook-form'
-// import axios from 'axios'
+import { compose } from 'redux'
+
+import { makeSelectError, makeSelectLoading } from 'containers/App/selectors'
+import { createStructuredSelector } from 'reselect'
+import { useInjectReducer } from 'utils/injectReducer'
+import { useInjectSaga } from 'utils/injectSaga'
+import { login } from './actions'
+import reducer from './reducer'
+import saga from './saga'
+
 import {
-  LoginWrapper,
+  Button,
+  Input,
+  InputControl,
   LoginContent,
   LoginForm,
-  Title,
-  InputControl,
-  Input,
-  Button,
+  LoginWrapper,
   Message,
+  Title,
 } from './styled'
 
-import { login } from '../App/actions'
+const key = 'login'
 
-function Login(props) {
+function Login({ loading, error, onSubmit }) {
+  useInjectReducer({ key, reducer })
+  useInjectSaga({ key, saga })
+
   const { register, handleSubmit, errors } = useForm({
     validateCriteriaMode: 'all',
   })
-  const [beMessage, setbeMessage] = useState(null)
-  useEffect(() => {
-  }, [])
 
-  const onSubmit = (data) => {
-    const { dispatch } = props
-    dispatch(login(data.email, data.password))
-
-  }
+  useEffect(() => {}, [])
 
   return (
     <LoginWrapper>
@@ -73,10 +78,10 @@ function Login(props) {
                 // eslint-disable-next-line react/jsx-curly-newline
               }
             </ErrorMessage>
-            {beMessage && <Message>{beMessage}</Message>}
+            {error && <Message>{error}</Message>}
           </InputControl>
-          <Button type="submit" name="login">
-            get started
+          <Button type="submit" disabled={loading} name="login">
+            {loading ? 'loading' : 'get started'}
           </Button>
         </LoginForm>
       </LoginContent>
@@ -85,7 +90,25 @@ function Login(props) {
 }
 
 Login.propTypes = {
-  dispatch: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  error: PropTypes.any,
+  loading: PropTypes.bool,
+  onSubmit: PropTypes.func,
 }
 
-export default connect()(Login)
+const mapStateToProps = createStructuredSelector({
+  loading: makeSelectLoading(),
+  error: makeSelectError(),
+})
+
+export function mapDispatchToProps(dispatch) {
+  return {
+    onSubmit: ({ email, password }) => {
+      dispatch(login(email, password))
+    },
+  }
+}
+
+const withConnect = connect(mapStateToProps, mapDispatchToProps)
+
+export default compose(withConnect)(Login)

@@ -2,60 +2,53 @@
  * App actions
  */
 
-export const SENDING_REQUEST = 'SENDING_REQUEST'
-export const LOGIN = 'LOGIN'
-export const SIGNUP = 'SIGNUP'
+export const LOAD = 'LOAD'
+export const LOAD_SUCCESS = 'LOAD_SUCCESS'
+export const LOAD_ERROR = 'LOAD_ERROR'
 export const SET_AUTH = 'SET_AUTH'
-export const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE'
-export const LOGOUT = 'LOGOUT'
-export const CHANGE_FORM = 'CHANGE_FORM'
 
-export function sendingRequest(sending) {
+/**
+ * Load the repositories, this action starts the request saga
+ *
+ * @return {object} An action object with a type of LOAD
+ */
+export function load() {
   return {
-    type: SENDING_REQUEST,
-    sending,
+    type: LOAD,
   }
 }
 
-export function login(username, password) {
+/**
+ * Dispatched when the repositories are loaded by the request saga
+ *
+ * @param  {array} repos The repository data
+ * @param  {string} username The current username
+ *
+ * @return {object}      An action object with a type of LOAD_SUCCESS passing the repos
+ */
+export function loaded() {
   return {
-    type: LOGIN,
-    username,
-    password,
+    type: LOAD_SUCCESS,
   }
 }
 
-export function signup(username, password) {
+/**
+ * Dispatched when loading the repositories fails
+ *
+ * @param  {object} error The error
+ *
+ * @return {object}       An action object with a type of LOAD_ERROR passing the error
+ */
+export function loadingError(error) {
   return {
-    type: SIGNUP,
-    username,
-    password,
+    type: LOAD_ERROR,
+    error,
   }
 }
 
 export function setAuthState(newState) {
   return {
     type: SET_AUTH,
-    newState,
-  }
-}
-
-export function setErrorMessage(message) {
-  return {
-    type: SET_ERROR_MESSAGE,
-    message,
-  }
-}
-
-export function logout() {
-  return {
-    type: LOGOUT,
-  }
-}
-
-export function changeForm(newState) {
-  return {
-    type: CHANGE_FORM,
     newState,
   }
 }

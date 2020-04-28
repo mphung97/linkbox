@@ -7,59 +7,40 @@
  *
  */
 
-import produce from 'immer';
+import produce from 'immer'
+import auth from 'utils/auth'
 
-import {
-  SENDING_REQUEST,
-  SET_AUTH,
-  LOGIN,
-  SIGNUP,
-  SET_ERROR_MESSAGE,
-  LOGOUT,
-  CHANGE_FORM,
-} from './actions';
+import { LOAD, LOAD_SUCCESS, LOAD_ERROR, SET_AUTH } from './actions'
 
 // The initial state of the App
 export const initialState = {
-  formState: {
-    username: '',
-    password: '',
-  },
-  currentlySending: false,
-  loggedIn: /*  auth.loggedIn()  */ false,
+  username: '',
+  loggedIn: auth.loggedIn(),
+  loading: false,
+  error: false,
   errorMessage: '',
-};
+}
 
 /* eslint-disable default-case, no-param-reassign */
 const appReducer = (state = initialState, action) =>
   produce(state, (draft) => {
     switch (action.type) {
-      case SENDING_REQUEST:
-        draft.currentlySending = action.sending;
-        break;
-      case LOGIN:
-        draft.formState.username = action.username;
-        draft.formState.password = action.password;
-        break;
-      case SIGNUP:
-        draft.formState.username = action.username;
-        draft.formState.password = action.password;
-        break;
-      case SET_AUTH:
-        draft.loggedIn = action.newState;
-        break;
-      case SET_ERROR_MESSAGE:
-        draft.errorMessage = action.message;
-        break;
-      case LOGOUT:
-        draft.formState.username = '';
-        draft.formState.password = '';
-        break;
-      case CHANGE_FORM:
-        draft.formState.username = action.username;
-        draft.formState.password = action.password;
-        break;
-    }
-  });
+      case LOAD:
+        draft.loading = true
+        draft.error = false
+        break
 
-export default appReducer;
+      case LOAD_SUCCESS:
+        draft.loading = false
+        break
+
+      case LOAD_ERROR:
+        draft.error = action.error
+        break
+      case SET_AUTH:
+        draft.loggedIn = action.newState
+        break
+    }
+  })
+
+export default appReducer

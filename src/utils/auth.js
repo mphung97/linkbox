@@ -1,20 +1,19 @@
-import { browserHistory } from 'react-router'
+import history from 'utils/history'
 import axios from 'axios'
 
 const { localStorage } = global.window
 
 function forwardTo(location) {
-  browserHistory.push(location)
+  history.push(location)
 }
 
 const auth = {
-  login(username, password) {
+  login(email, password) {
     if (auth.loggedIn()) {
       return Promise.resolve(true)
     }
-    // Post a fake request
     return axios
-      .post('http://localhost:3001/signin', { username, password })
+      .post('http://localhost:3001/signin', { email, password })
       .then((response) => {
         localStorage.token = response.data.access_token
         return Promise.resolve(true)
