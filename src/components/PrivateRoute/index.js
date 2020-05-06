@@ -1,11 +1,13 @@
 /* lib */
 import React, { useEffect } from 'react'
-import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
 import { Route, Redirect } from 'react-router-dom'
-
-import auth from 'utils/auth'
+import { selectLoggedIn } from 'containers/App/selectors'
+import PropTypes from 'prop-types'
 
 function PrivateRoute({ component: Component, ...rest }) {
+  const isLoggedIn = useSelector(selectLoggedIn)
+
   useEffect(() => {}, [])
 
   return (
@@ -14,7 +16,7 @@ function PrivateRoute({ component: Component, ...rest }) {
       {...rest}
       render={
         ({ location }) =>
-          auth.loggedIn() ? (
+          isLoggedIn ? (
             <Component />
           ) : (
             <Redirect

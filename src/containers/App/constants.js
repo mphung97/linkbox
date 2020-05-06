@@ -1,0 +1,7 @@
+export const LOAD = 'LOAD'
+export const LOAD_SUCCESS = 'LOAD_SUCCESS'
+export const LOAD_ERROR = 'LOAD_ERROR'
+export const SET_AUTH = 'SET_AUTH'
+export const LOGIN = 'LOGIN'
+export const SIGNUP = 'SIGNUP'
+export const LOGOUT = 'LOGOUT'

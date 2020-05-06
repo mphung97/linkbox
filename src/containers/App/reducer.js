@@ -10,7 +10,7 @@
 import produce from 'immer'
 import auth from 'utils/auth'
 
-import { LOAD, LOAD_SUCCESS, LOAD_ERROR, SET_AUTH } from './actions'
+import { LOAD, LOAD_SUCCESS, LOAD_ERROR, SET_AUTH } from './constants'
 
 // The initial state of the App
 export const initialState = {
@@ -29,11 +29,9 @@ const appReducer = (state = initialState, action) =>
         draft.loading = true
         draft.error = false
         break
-
       case LOAD_SUCCESS:
         draft.loading = false
         break
-
       case LOAD_ERROR:
         draft.error = action.error
         break

@@ -1,39 +1,34 @@
+import { login } from 'containers/App/actions'
+import { selectError, selectLoading, selectLoggedIn } from 'containers/App/selectors'
 import React, { useEffect } from 'react'
-import PropTypes from 'prop-types'
 import { ErrorMessage, useForm } from 'react-hook-form'
-import { connect } from 'react-redux'
-import { compose } from 'redux'
-
-import { makeSelectError, makeSelectLoading } from 'containers/App/selectors'
-import { createStructuredSelector } from 'reselect'
-import { useInjectReducer } from 'utils/injectReducer'
+import { useDispatch, useSelector } from 'react-redux'
+import history from 'utils/history'
 import { useInjectSaga } from 'utils/injectSaga'
-import { login } from './actions'
-import reducer from './reducer'
 import saga from './saga'
-
-import {
-  Button,
-  Input,
-  InputControl,
-  LoginContent,
-  LoginForm,
-  LoginWrapper,
-  Message,
-  Title,
-} from './styled'
+import { Button, Input, InputControl, LoginContent, LoginForm, LoginWrapper, Message, Title } from './styled'
 
 const key = 'login'
 
-function Login({ loading, error, onSubmit }) {
-  useInjectReducer({ key, reducer })
+// eslint-disable-next-line no-unused-vars
+function Login(props) {
+  const isLoggedIn = useSelector(selectLoggedIn)
+  const loading = useSelector(selectLoading)
+  const error = useSelector(selectError)
+  const dispatch = useDispatch()
+  const onSubmit = ({ email, password }) => dispatch(login(email, password))
+
   useInjectSaga({ key, saga })
 
   const { register, handleSubmit, errors } = useForm({
     validateCriteriaMode: 'all',
   })
 
-  useEffect(() => {}, [])
+  useEffect(() => {
+    if (isLoggedIn) {
+      history.push('/')
+    }
+  }, [isLoggedIn])
 
   return (
     <LoginWrapper>
@@ -46,6 +41,7 @@ function Login({ loading, error, onSubmit }) {
               type="email"
               name="email"
               placeholder="Email"
+              autoComplete="on"
             />
             <ErrorMessage errors={errors} name="email">
               {({ message }) => <Message>{message}</Message>}
@@ -67,6 +63,7 @@ function Login({ loading, error, onSubmit }) {
               type="password"
               name="password"
               placeholder="Password"
+              autoComplete="on"
             />
             <ErrorMessage errors={errors} name="password">
               {
@@ -88,27 +85,4 @@ function Login({ loading, error, onSubmit }) {
     </LoginWrapper>
   )
 }
-
-Login.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  error: PropTypes.any,
-  loading: PropTypes.bool,
-  onSubmit: PropTypes.func,
-}
-
-const mapStateToProps = createStructuredSelector({
-  loading: makeSelectLoading(),
-  error: makeSelectError(),
-})
-
-export function mapDispatchToProps(dispatch) {
-  return {
-    onSubmit: ({ email, password }) => {
-      dispatch(login(email, password))
-    },
-  }
-}
-
-const withConnect = connect(mapStateToProps, mapDispatchToProps)
-
-export default compose(withConnect)(Login)
+export default Login

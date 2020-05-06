@@ -1,7 +1,8 @@
 import history from 'utils/history'
 import axios from 'axios'
+// import Cookies from 'js-cookie'
 
-const { localStorage } = global.window
+const storage = window.localStorage
 
 function forwardTo(location) {
   history.push(location)
@@ -12,20 +13,29 @@ const auth = {
     if (auth.loggedIn()) {
       return Promise.resolve(true)
     }
-    return axios
-      .post('http://localhost:3001/signin', { email, password })
-      .then((response) => {
-        localStorage.token = response.data.access_token
-        return Promise.resolve(true)
-      })
+    return (
+      axios
+        .post('http://localhost:3001/signin', { email, password })
+        .then((response) => {
+          const { data } = response
+          storage.setItem('jwt', data.access_token)
+          storage.setItem('username', data.username)
+          storage.setItem('email', data.email)
+          return data
+        })
+        // eslint-disable-next-line no-console
+        .catch((error) => console.log(error))
+    )
   },
 
   logout() {
-    return axios.post('/logout')
+    storage.removeItem('jwt')
+    storage.removeItem('username')
+    storage.removeItem('email')
   },
 
   loggedIn() {
-    return !!localStorage.token
+    return !!storage.getItem('jwt')
   },
 
   signup(username, password) {
