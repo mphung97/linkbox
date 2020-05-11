@@ -7,7 +7,7 @@ import auth from 'utils/auth'
 
 export function* logout() {
   auth.logout()
-  yield put(setAuth(false))
+  yield put(setAuth([false]))
   yield put(push('/login'))
 }
 

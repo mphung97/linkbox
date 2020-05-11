@@ -12,9 +12,12 @@ import auth from 'utils/auth'
 
 import { LOAD, LOAD_SUCCESS, LOAD_ERROR, SET_AUTH } from './constants'
 
+const storage = window.localStorage
+
 // The initial state of the App
 export const initialState = {
-  username: '',
+  username: storage.getItem('username') || '',
+  email: storage.getItem('email') || '',
   loggedIn: auth.loggedIn(),
   loading: false,
   error: false,
@@ -36,7 +39,9 @@ const appReducer = (state = initialState, action) =>
         draft.error = action.error
         break
       case SET_AUTH:
-        draft.loggedIn = action.newState
+        draft.loggedIn = !!action.payload[0]
+        draft.email = action.payload[1] || ''
+        draft.username = action.payload[2] || ''
         break
     }
   })

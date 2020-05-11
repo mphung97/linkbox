@@ -11,26 +11,19 @@ const selectRouter = (state) => state.router
 
 const selectCurrentUser = createSelector(
   selectGlobal,
-  (globalState) => globalState.username
+  ({ username, email }) => ({
+    username,
+    email,
+  })
 )
 
-const selectLoggedIn = createSelector(
-  selectGlobal,
-  (globalState) => globalState.loggedIn
-)
+const selectLoggedIn = createSelector(selectGlobal, ({ loggedIn }) => loggedIn)
 
-const selectLoading = createSelector(
-  selectGlobal,
-  (globalState) => globalState.loading
-)
+const selectLoading = createSelector(selectGlobal, ({ loading }) => loading)
 
-const selectError = createSelector(
-  selectGlobal,
-  (globalState) => globalState.error
-)
+const selectError = createSelector(selectGlobal, ({ error }) => error)
 
-const selectLocation = () =>
-  createSelector(selectRouter, (routerState) => routerState.location)
+const selectLocation = createSelector(selectRouter, ({ location }) => location)
 
 export {
   selectGlobal,

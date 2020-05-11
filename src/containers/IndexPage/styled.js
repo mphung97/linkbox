@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Input, Button } from '../LoginPage/styled'
+import { Input } from '../LoginPage/styled'
 
 export const HeaderWrapper = styled.div``
 
@@ -16,6 +16,7 @@ export const H4 = styled.h4`
   font-size: 20px;
   line-height: 25px;
   font-weight: 700;
+  margin-bottom: 0;
 `
 
 export const Body2 = styled.p`
@@ -89,9 +90,11 @@ export const LinkWrapper = styled.div`
 `
 export const LinkInfo = styled.div`
   flex: 1;
+  max-width: 100%;
+  /* margin-right: 0.25rem; */
 `
 export const LinkImg = styled.div`
-  width: 70px;
+  width: 80px;
   background-color: #f5f5f5;
   border-radius: 7px;
 `
@@ -99,39 +102,70 @@ export const LinkImg = styled.div`
 export const ActionBar = styled.div`
   position: relative;
   display: flex;
-  border: 1px solid #f2f2f2;
+  justify-content: space-between;
+  /* border: 1px solid #f2f2f2; */
   vertical-align: middle;
 `
-
-export const Action = styled(Button)`
-  position: relative;
-  padding: 0;
-  text-transform: inherit;
-  background-color: transparent;
-  border: 1px solid transparent;
-
-  color: inherit;
-  border-radius: 0;
-  flex: 1;
-  &:hover {
-    background-color: #f5f5f5;
-    border: 1px solid #f5f5f5;
-  }
-`
-
-export const CircleButton = styled(Button)`
+export const CircleButton = styled.button`
   position: relative;
   margin-left: 0.5rem;
   padding: 0;
-  background-color: #f5f5f5;
-  border: 1px solid #f5f5f5;
+  background-color: ${({ bg }) => bg || '#f5f5f5'};
+  border: 1px solid ${({ bg }) => bg || '#f5f5f5'};
   width: 35px;
   height: 35px;
   border-radius: 50%;
   &:hover {
-    background-color: #e2e2e2;
-    border: 1px solid #e2e2e2;
+    background-color: ${({ bgh }) => bgh || '#e2e2e2'};
+    border: 1px solid ${({ bgh }) => bgh || '#e2e2e2'};
+  }
+  &:focus {
+    outline: 0;
   }
 `
 
+export const Action = styled(CircleButton)`
+  width: auto;
+  height: auto;
+  margin: 2px;
+`
+
 export const Avatar = styled.div``
+
+export const TitleWrapper = styled.div`
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  height: 50px;
+`
+export const H6 = styled.h6`
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 700;
+`
+export const Title = styled(H6).attrs({
+  as: 'a',
+})`
+  color: inherit;
+  &:hover {
+    color: inherit;
+  }
+`
+
+export const Caption2 = styled.p`
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+  margin: 0;
+`
+
+export const Description = styled.p`
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 300;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`

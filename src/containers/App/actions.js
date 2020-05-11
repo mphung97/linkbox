@@ -26,10 +26,10 @@ export function loadError(error) {
   }
 }
 
-export function setAuth(newState) {
+export function setAuth(payload) {
   return {
     type: SET_AUTH,
-    newState,
+    payload,
   }
 }
 
