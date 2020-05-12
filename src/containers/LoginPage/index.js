@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import history from 'utils/history'
 import { useInjectSaga } from 'utils/injectSaga'
 import saga from './saga'
-import { Button, Input, InputControl, LoginContent, LoginForm, LoginWrapper, Message, Title } from './styled'
+import { Button, Input, InputControl, LoginContent, Form, LoginWrapper, Message, Title } from './styled'
 
 const key = 'login'
 
@@ -34,7 +34,7 @@ function Login(props) {
     <LoginWrapper>
       <LoginContent>
         <Title>Login to your account</Title>
-        <LoginForm onSubmit={handleSubmit(onSubmit)}>
+        <Form onSubmit={handleSubmit(onSubmit)}>
           <InputControl>
             <Input
               ref={register({ required: 'This is required.' })}
@@ -77,10 +77,10 @@ function Login(props) {
             </ErrorMessage>
             {error && <Message>{error}</Message>}
           </InputControl>
-          <Button type="submit" disabled={loading} name="login">
+          <Button block type="submit" disabled={loading} name="login">
             {loading ? 'loading' : 'get started'}
           </Button>
-        </LoginForm>
+        </Form>
       </LoginContent>
     </LoginWrapper>
   )

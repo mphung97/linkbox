@@ -99,7 +99,7 @@ export const LinkImg = styled.div`
   border-radius: 7px;
 `
 
-export const ActionBar = styled.div`
+export const ActionBarWrapper = styled.div`
   position: relative;
   display: flex;
   justify-content: space-between;
@@ -111,15 +111,16 @@ export const CircleButton = styled.button`
   margin-left: 0.5rem;
   padding: 0;
   background-color: ${({ bg }) => bg || '#f5f5f5'};
-  border: 1px solid ${({ bg }) => bg || '#f5f5f5'};
+  border: 1px solid transparent;
   width: 35px;
   height: 35px;
   border-radius: 50%;
   &:hover {
     background-color: ${({ bgh }) => bgh || '#e2e2e2'};
-    border: 1px solid ${({ bgh }) => bgh || '#e2e2e2'};
+    border: 1px solid transparent;
   }
   &:focus {
+    background-color: ${({ bgh }) => bgh || '#e2e2e2'};
     outline: 0;
   }
 `
@@ -168,4 +169,12 @@ export const Description = styled.p`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+`
+
+export const Buttons = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  &:button {
+    margin-left: 5px;
+  }
 `

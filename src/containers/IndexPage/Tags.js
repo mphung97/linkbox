@@ -1,11 +1,15 @@
 import PropTypes from 'prop-types'
 import React, { memo } from 'react'
+import styled from 'styled-components'
 
+const Tag = styled.span`
+  color: #4dabf7
+`
 function Tags({ tags }) {
   return (
     <>
       {tags.map((t) => (
-        <span key={t}>{`#${t}`}</span>
+        <Tag key={t}>{t}</Tag>
       ))}
     </>
   )

@@ -12,7 +12,7 @@ export const LoginContent = styled.div`
   height: 50vh;
 `
 
-export const LoginForm = styled.form`
+export const Form = styled.form`
   font-size: 0.8rem;
   width: 100%;
   max-width: 540px;
@@ -40,15 +40,15 @@ export const Input = styled.input`
 
 export const Button = styled.button`
   padding: 0.5rem 1rem;
-  background-color: #364fc7;
-  border: 1px solid #364fc7;
+  background-color: #4dabf7;
+  border: 1px solid transparent;
   color: #fff;
   text-transform: uppercase;
   border-radius: 7px;
-  width: 100%;
+  width: ${({ block }) => (block ? '100%' : 'auto')};
   &:hover {
-    background-color: #4263eb;
-    border: 1px solid #4263eb;
+    background-color: #74c0fc;
+    border: 1px solid transparent;
   }
   &:focus {
     outline: 0;

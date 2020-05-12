@@ -15,7 +15,7 @@ const appear = keyframes`
 
 const slideIn = keyframes`
   from {
-    transform: translateY(-150px);
+    transform: translateY(-1150px);
   }
   to {
     transform: translateY(0);
