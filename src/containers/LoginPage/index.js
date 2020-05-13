@@ -1,5 +1,5 @@
-import { login } from 'containers/App/actions'
-import { selectError, selectLoading, selectLoggedIn } from 'containers/App/selectors'
+import { login } from 'containers/App/redux/actions'
+import { selectError, selectLoading, selectLoggedIn } from 'containers/App/redux/selectors'
 import React, { useEffect } from 'react'
 import { ErrorMessage, useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'

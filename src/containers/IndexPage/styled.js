@@ -174,7 +174,7 @@ export const Description = styled.p`
 export const Buttons = styled.div`
   display: flex;
   justify-content: flex-end;
-  &:button {
+  button {
     margin-left: 5px;
   }
 `

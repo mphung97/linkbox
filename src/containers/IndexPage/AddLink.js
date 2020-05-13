@@ -4,11 +4,58 @@ import { Button, Form, Input, InputControl, Message } from '../LoginPage/styled'
 import Modal from './Modal'
 import { CircleButton, Buttons } from './styled'
 
+// eslint-disable-next-line react/prop-types
+function AddLinkModal({ open, toogle, onSubmit }) {
+  const { register, handleSubmit, errors } = useForm()
+
+  return (
+    <Modal isVisible={open} onClose={() => toogle(false)} title="Add Link">
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <InputControl>
+          <Input
+            type="text"
+            name="url"
+            placeholder="URL"
+            autoComplete="off"
+            autoFocus
+            ref={register({
+              required: 'This is required.',
+              pattern: {
+                value: /(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)/,
+                message: 'Invalid URL',
+              },
+            })}
+          />
+          <ErrorMessage errors={errors} name="url">
+            {({ message }) => <Message>{message}</Message>}
+          </ErrorMessage>
+        </InputControl>
+        <InputControl>
+          <Input
+            type="text"
+            name="title"
+            placeholder="Title"
+            autoComplete="off"
+            ref={register()}
+          />
+        </InputControl>
+        <p>TagsInput is coming</p>
+        <Buttons>
+          <Button type="submit">Add</Button>
+          <Button type="button" btn="danger" onClick={() => toogle(false)}>
+            Close
+          </Button>
+        </Buttons>
+      </Form>
+    </Modal>
+  )
+}
+
 function AddLink() {
   const [open, setOpen] = useState(false)
-  const { register, handleSubmit, errors } = useForm()
   const toogle = (o) => setOpen(o)
-  const onSubmit = () => console.log('click')
+  // eslint-disable-next-line no-console
+  const onSubmit = (data) => console.log(data)
 
   return (
     <>
@@ -28,34 +75,7 @@ function AddLink() {
           />
         </svg>
       </CircleButton>
-      <Modal isVisible={open} onClose={() => toogle(false)} title="Add Link">
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          <InputControl>
-            <Input
-              type="text"
-              name="url"
-              placeholder="URL"
-              autoComplete="off"
-              ref={register({
-                required: 'This is required.',
-                pattern: {
-                  value: /(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)/,
-                  message: 'Invalid URL',
-                },
-              })}
-            />
-            <ErrorMessage errors={errors} name="url">
-              {({ message }) => <Message>{message}</Message>}
-            </ErrorMessage>
-          </InputControl>
-          <p>Title is coming</p>
-          <p>TagsInput is coming</p>
-          <Buttons>
-            <Button type="submit">Add</Button>
-            <Button type="submit">Close</Button>
-          </Buttons>
-        </Form>
-      </Modal>
+      <AddLinkModal open={open} toogle={toogle} onSubmit={onSubmit} />
     </>
   )
 }

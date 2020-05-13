@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Route, Redirect } from 'react-router-dom'
-import { selectLoggedIn } from 'containers/App/selectors'
+import { selectLoggedIn } from 'containers/App/redux/selectors'
 import PropTypes from 'prop-types'
 
 function PrivateRoute({ component: Component, ...rest }) {

@@ -9,22 +9,33 @@ function forwardTo(location) {
 }
 
 const auth = {
-  login(email, password) {
+  login(username, password) {
     if (auth.loggedIn()) {
       return Promise.resolve(true)
     }
     return (
       axios
-        .post('http://localhost:3001/signin', { email, password })
+        .post('http://localhost:3001/signin', { email: username, password })
         .then((response) => {
-          const { data } = response
-          storage.setItem('jwt', data.access_token)
-          storage.setItem('username', data.username)
-          storage.setItem('email', data.email)
-          return data
+          const {
+            data: { access_token: token },
+          } = response
+          const { email, iss: user } = JSON.parse(atob(token.split('.')[1]))
+          storage.setItem('jwt', token)
+          storage.setItem('username', email)
+          storage.setItem('email', user)
+          return { email, user }
         })
         // eslint-disable-next-line no-console
-        .catch((error) => console.log(error))
+        .catch(
+          ({
+            response: {
+              data: { message },
+            },
+          }) => {
+            throw new Error(message)
+          }
+        )
     )
   },
 

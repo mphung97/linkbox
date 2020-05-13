@@ -1,4 +1,4 @@
-import { logout } from 'containers/App/actions'
+import { logout } from 'containers/App/redux/actions'
 import React, { memo } from 'react'
 import { useDispatch } from 'react-redux'
 import { CircleButton } from './styled'

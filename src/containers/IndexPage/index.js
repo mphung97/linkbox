@@ -1,29 +1,30 @@
-import axios from 'axios'
-import { selectCurrentUser } from 'containers/App/selectors'
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { selectCurrentUser } from 'containers/App/redux/selectors'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useInjectReducer } from 'utils/injectReducer'
 import { useInjectSaga } from 'utils/injectSaga'
 import ActionBar from './ActionBar'
 import AddLink from './AddLink'
 import LogoutButton from './LogoutButton'
-import saga from './saga'
+import { getLinks } from './redux/actions'
+import reducer from './redux/reducer'
+import saga from './redux/saga'
+import { selectLinks } from './redux/selectors'
 import { Avatar, Body2, Caption2, Col, Description, Divider, H4, Header, HeaderContent, HeaderWrapper, Item, LinkInfo, LinkWrapper, Row, SearchBox, SearchBoxInput, Title, TitleWrapper } from './styled'
 import Tags from './Tags'
 
-const storage = window.localStorage
 const key = 'index'
 
 export default () => {
   const { email, username } = useSelector(selectCurrentUser)
-  const [links, setLinks] = useState([])
+  const links = useSelector(selectLinks)
+  const dispatch = useDispatch()
 
+  useInjectReducer({ key, reducer })
   useInjectSaga({ key, saga })
+
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/links', {
-        headers: { authorization: storage.getItem('jwt') },
-      })
-      .then(({ data }) => setLinks(data))
+    dispatch(getLinks())
   }, [])
 
   return (

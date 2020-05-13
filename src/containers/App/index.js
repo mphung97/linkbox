@@ -5,7 +5,7 @@ import { Route, Switch } from 'react-router-dom'
 import Layout from 'components/Layout'
 import PrivateRoute from 'components/PrivateRoute'
 /* containers */
-import IndexPage from 'containers/IndexPage'
+import IndexPage from 'containers/IndexPage/Loadable'
 import NotFound from 'containers/NotFoundPage'
 import Login from 'containers/LoginPage/Loadable'
 

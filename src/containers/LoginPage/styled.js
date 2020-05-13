@@ -40,14 +40,20 @@ export const Input = styled.input`
 
 export const Button = styled.button`
   padding: 0.5rem 1rem;
-  background-color: #4dabf7;
+  background-color: ${({ btn }) =>
+    (btn === 'danger' && '#fa5252') ||
+    (btn === 'warning' && '#ffd43b') ||
+    '#4dabf7'};
   border: 1px solid transparent;
   color: #fff;
   text-transform: uppercase;
   border-radius: 7px;
   width: ${({ block }) => (block ? '100%' : 'auto')};
   &:hover {
-    background-color: #74c0fc;
+    background-color: ${({ btn }) =>
+    (btn === 'danger' && '#ff6b6b') ||
+    (btn === 'warning' && '#ffe066') ||
+    '#74c0fc'};;
     border: 1px solid transparent;
   }
   &:focus {
