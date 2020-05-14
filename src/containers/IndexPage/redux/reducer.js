@@ -10,7 +10,7 @@ const reducer = (state = initialState, action) =>
   produce(state, (draft) => {
     switch (action.type) {
       case SET_LINKS:
-        draft.links = action.payload || []
+        draft.links.push(...action.payload)
         break
     }
   })

@@ -5,8 +5,8 @@ import { ErrorMessage, useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import history from 'utils/history'
 import { useInjectSaga } from 'utils/injectSaga'
-import saga from './saga'
-import { Button, Input, InputControl, LoginContent, Form, LoginWrapper, Message, Title } from './styled'
+import saga from './redux/saga'
+import { Button, Form, Input, InputControl, LoginContent, LoginWrapper, Message, Title } from './styled'
 
 const key = 'login'
 

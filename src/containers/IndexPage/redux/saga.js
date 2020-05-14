@@ -1,21 +1,11 @@
 /* lib */
-import axios from 'axios'
 import { push } from 'connected-react-router'
 import { setAuth } from 'containers/App/redux/actions'
 import { LOGOUT } from 'containers/App/redux/constants'
 import { all, call, fork, put, takeLatest } from 'redux-saga/effects'
 import auth from 'utils/auth'
-import { GET_LINKS, setLinks } from './actions'
-
-const storage = window.localStorage
-
-function fetchLinks() {
-  return axios
-    .get('http://localhost:3001/links', {
-      headers: { authorization: storage.getItem('jwt') },
-    })
-    .then(({ data }) => data)
-}
+import { ADD_LINKS, GET_LINKS, setLinks } from './actions'
+import api from './api'
 
 export function* logout() {
   yield fork(auth.logout)
@@ -24,8 +14,17 @@ export function* logout() {
 }
 
 export function* getLinks() {
-  const links = yield call(fetchLinks)
-  yield put(setLinks(links))
+  try {
+    const links = yield call(api.get)
+    yield put(setLinks(links))
+  } catch (error) {
+    yield put(logout)
+  }
+}
+
+export function* addLinks(action) {
+  const link = yield call(api.add, action.payload)
+  yield put(setLinks([link]))
 }
 
 // Watchers
@@ -33,10 +32,14 @@ function* watchLogout() {
   yield takeLatest(LOGOUT, logout)
 }
 
-function* watchLinks() {
+function* watchGetLinks() {
   yield takeLatest(GET_LINKS, getLinks)
 }
 
+function* watchAddLinks() {
+  yield takeLatest(ADD_LINKS, addLinks)
+}
+
 export default function* saga() {
-  yield all([fork(watchLogout), fork(watchLinks)])
+  yield all([fork(watchLogout), fork(watchGetLinks), fork(watchAddLinks)])
 }

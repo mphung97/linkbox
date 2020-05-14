@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
-import React from 'react'
-import { Action, ActionBarWrapper } from './styled'
+import React, { useState, useRef } from 'react'
+import { Action, ActionBarWrapper, SmallText } from './styled'
+import useClickOutSide from '../../hooks/useClickOutSide'
 
 const copyToClipboard = (str) => {
   const el = document.createElement('textarea')
@@ -23,14 +24,21 @@ const copyToClipboard = (str) => {
 }
 
 function ActionBar({ url }) {
+  const [copied, setCopied] = useState(false)
+  const ref = useRef()
+  useClickOutSide(ref, () => setCopied(false))
+
   return (
-    <ActionBarWrapper>
+    <ActionBarWrapper ref={ref}>
       <div>
         <Action
           type="button"
           bg="transparent"
           bgh="#f2f2f2"
-          onClick={() => copyToClipboard(url)}
+          onClick={() => {
+            copyToClipboard(url)
+            setCopied(true)
+          }}
         >
           <svg
             width="29"
@@ -73,6 +81,7 @@ function ActionBar({ url }) {
             />
           </svg>
         </Action>
+        {copied && <SmallText color="#69db7c">Copied!</SmallText>}
       </div>
       <Action type="button" bg="transparent" bgh="#f2f2f2">
         <svg
@@ -107,7 +116,7 @@ function ActionBar({ url }) {
 }
 
 ActionBar.propTypes = {
-  url : PropTypes.string
+  url: PropTypes.string,
 }
 
 export default ActionBar

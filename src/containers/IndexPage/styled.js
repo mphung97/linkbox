@@ -178,3 +178,10 @@ export const Buttons = styled.div`
     margin-left: 5px;
   }
 `
+
+export const SmallText = styled.span`
+  font-size: 11px;
+  line-height: 13px;
+  font-weight: 400;
+  color: ${({ color }) => color || 'inherit'};
+`

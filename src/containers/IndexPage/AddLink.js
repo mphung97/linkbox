@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { ErrorMessage, useForm } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
 import { Button, Form, Input, InputControl, Message } from '../LoginPage/styled'
 import Modal from './Modal'
-import { CircleButton, Buttons } from './styled'
+import { addLinks } from './redux/actions'
+import { Buttons, CircleButton } from './styled'
 
 // eslint-disable-next-line react/prop-types
 function AddLinkModal({ open, toogle, onSubmit }) {
@@ -54,8 +56,9 @@ function AddLinkModal({ open, toogle, onSubmit }) {
 function AddLink() {
   const [open, setOpen] = useState(false)
   const toogle = (o) => setOpen(o)
+  const dispatch = useDispatch()
   // eslint-disable-next-line no-console
-  const onSubmit = (data) => console.log(data)
+  const onSubmit = (data) => dispatch(addLinks(data.url))
 
   return (
     <>
