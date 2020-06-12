@@ -11,9 +11,9 @@ const selectRouter = (state) => state.router
 
 const selectCurrentUser = createSelector(
   selectGlobal,
-  ({ username, email }) => ({
-    username,
+  ({ email, username }) => ({
     email,
+    username,
   })
 )
 

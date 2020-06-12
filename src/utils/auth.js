@@ -22,8 +22,8 @@ const auth = {
           } = response
           const { email, iss: user } = JSON.parse(atob(token.split('.')[1]))
           storage.setItem('jwt', token)
-          storage.setItem('username', email)
-          storage.setItem('email', user)
+          storage.setItem('username', user)
+          storage.setItem('email', email)
           return { email, user }
         })
         // eslint-disable-next-line no-console

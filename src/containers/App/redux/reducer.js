@@ -30,9 +30,9 @@ const reducer = (state = initialState, action) =>
         draft.error = action.error
         break
       case SET_AUTH:
-        draft.loggedIn = !!action.payload[0]
-        draft.email = action.payload[1] || ''
-        draft.username = action.payload[2] || ''
+        draft.loggedIn = action.payload.loggedIn
+        draft.username = action.payload.user || ''
+        draft.email = action.payload.email || ''
         break
     }
   })

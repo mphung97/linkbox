@@ -1,6 +1,11 @@
 /* lib */
 import { push } from 'connected-react-router'
-import { load, loadError, loadSuccess, setAuth } from 'containers/App/redux/actions'
+import {
+  load,
+  loadError,
+  loadSuccess,
+  setAuth,
+} from 'containers/App/redux/actions'
 import { LOGIN, LOGOUT } from 'containers/App/redux/constants'
 import { call, put, race, take, takeLatest } from 'redux-saga/effects'
 import auth from 'utils/auth'
@@ -34,12 +39,12 @@ export function* login(action) {
   })
   if (winner.auth) {
     const { email, user } = winner.auth
-    yield put(setAuth([true, email, user]))
+    yield put(setAuth({ loggedIn: true, user, email }))
     yield put(push('/'))
   }
 }
 
 // Watchers
-export default function* watchLogin() {
+export default function* saga() {
   yield takeLatest(LOGIN, login)
 }

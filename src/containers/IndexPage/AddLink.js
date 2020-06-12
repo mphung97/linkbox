@@ -5,6 +5,7 @@ import { Button, Form, Input, InputControl, Message } from '../LoginPage/styled'
 import Modal from './Modal'
 import { addLinks } from './redux/actions'
 import { Buttons, CircleButton } from './styled'
+import TagsInput from './TagsInput'
 
 // eslint-disable-next-line react/prop-types
 function AddLinkModal({ open, toogle, onSubmit }) {
@@ -41,7 +42,7 @@ function AddLinkModal({ open, toogle, onSubmit }) {
             ref={register()}
           />
         </InputControl>
-        <p>TagsInput is coming</p>
+        <TagsInput />
         <Buttons>
           <Button type="submit">Add</Button>
           <Button type="button" btn="danger" onClick={() => toogle(false)}>
